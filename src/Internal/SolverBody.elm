@@ -94,6 +94,7 @@ toBody { dt, gravity } { body, vX, vY, vZ, wX, wY, wZ } =
     , invMass = body.invMass
     , invInertia = body.invInertia
     , invInertiaWorld = Transform3d.invertedInertiaRotateIn newTransform3d body.invInertia
+    , heightmap = body.heightmap
 
     -- clear forces
     , force = Vec3.zero

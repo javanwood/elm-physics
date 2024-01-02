@@ -6,6 +6,7 @@ module Internal.Body exposing
     , compound
     , raycast
     , updateMassProperties
+    , worldShapes
     )
 
 import Internal.Material as Material exposing (Material)
@@ -43,7 +44,21 @@ type alias Body data =
     , invMass : Float
     , invInertia : Mat3
     , invInertiaWorld : Mat3
+
+    -- heightmap
+    , heightmap : Maybe (Int -> Int -> Float)
     }
+
+
+worldShapes : Body data -> Body data -> List (Shape WorldCoordinates)
+worldShapes first comparison =
+    case first.heightmap of
+        Just _ ->
+            -- Do the magic to get the world shapes.
+            first.worldShapes
+
+        Nothing ->
+            first.worldShapes
 
 
 centerOfMass : List (Shape BodyCoordinates) -> Vec3
@@ -132,6 +147,9 @@ compound shapes data =
         , invMass = 0
         , invInertia = Mat3.zero
         , invInertiaWorld = Mat3.zero
+
+        -- height map
+        , heightmap = Nothing
         }
 
 
